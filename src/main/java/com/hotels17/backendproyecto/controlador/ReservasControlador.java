@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.controlador;
 
+import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.modelo.Reserva;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,10 @@ public class ReservasControlador {
     private Servicio servicio;
 
     @PostMapping()
-    public ResponseEntity<Reserva> nuevaReserva(@RequestBody Reserva nuevaReserva) {
-        nuevaReserva = servicio.nuevaReserva(nuevaReserva);
+    public ResponseEntity<ReservaDTO> nuevaReserva(@RequestBody ReservaDTO nuevaReserva) {
+        Reserva reserva = servicio.nuevaReserva(nuevaReserva);
         try {
-            return ResponseEntity.created(new URI("/" + nuevaReserva.getId())).build();
+            return ResponseEntity.created(new URI("/" + reserva.getId())).build();
         } catch (URISyntaxException e) {
             return ResponseEntity.unprocessableEntity().build();
         }

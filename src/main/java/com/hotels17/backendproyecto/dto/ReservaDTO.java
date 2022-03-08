@@ -7,7 +7,7 @@ public class ReservaDTO {
 
     private Integer id;
     private Integer idHabitacion;
-    private UsuarioDTO usuario;
+    private Integer idUsuario;
     private Integer numeroHuespedes;
     private Date fechaEntrada;
     private Date fechaSalida;
@@ -17,10 +17,10 @@ public class ReservaDTO {
     public ReservaDTO() {
     }
 
-    public ReservaDTO(Integer idHabitacion, UsuarioDTO usuario, Integer numeroHuespedes, Date fechaEntrada,
+    public ReservaDTO(Integer idHabitacion, Integer idUsuario, Integer numeroHuespedes, Date fechaEntrada,
                       Date fechaSalida, Double precioTotal, Boolean desayuno) {
         this.idHabitacion = idHabitacion;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
         this.numeroHuespedes = numeroHuespedes;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
@@ -44,12 +44,12 @@ public class ReservaDTO {
         this.idHabitacion = idHabitacion;
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Integer getNumeroHuespedes() {
@@ -110,7 +110,7 @@ public class ReservaDTO {
         return "ReservaDTO{" +
                 "id=" + id +
                 ", idHabitacion=" + idHabitacion +
-                ", usuario=" + usuario +
+                ", idUsuario=" + idUsuario +
                 ", numeroHuespedes=" + numeroHuespedes +
                 ", fechaEntrada=" + fechaEntrada +
                 ", fechaSalida=" + fechaSalida +

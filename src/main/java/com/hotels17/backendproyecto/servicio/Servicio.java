@@ -99,8 +99,9 @@ public class Servicio {
         reservaDetalles.setFechaSalida(reserva.getFechaSalida());
         reservaDetalles.setId(reserva.getId());
         reservaDetalles.setIdHabitacion(reserva.getHabitacion().getId());
+        reservaDetalles.setIdUsuario(reserva.getUsuario().getId());
         reservaDetalles.setNumeroHuespedes(reserva.getNumeroHuespedes());
-        reservaDetalles.setUsuario(getUsuarioDto(reserva.getUsuario()));
+        reservaDetalles.setPrecioTotal(reserva.getPrecioTotal());
         return reservaDetalles;
     }
 
@@ -112,9 +113,17 @@ public class Servicio {
         return reservasDto;
     }
 
-    public Reserva nuevaReserva(Reserva nuevaReserva) {
-        nuevaReserva.setPrecioTotal(nuevaReserva.getPrecioTotal());
-        return daoReservas.save(nuevaReserva);
+    public Reserva nuevaReserva(ReservaDTO nuevaReserva) {
+        Reserva reserva = new Reserva();
+        reserva.setDesayuno(nuevaReserva.getDesayuno());
+        reserva.setFechaEntrada(nuevaReserva.getFechaEntrada());
+        reserva.setFechaSalida(nuevaReserva.getFechaSalida());
+        reserva.setId(nuevaReserva.getId());
+        reserva.setHabitacion(getHabitacion(nuevaReserva.getIdHabitacion()));
+        reserva.setUsuario(getUsuario(nuevaReserva.getIdUsuario()));
+        reserva.setNumeroHuespedes(nuevaReserva.getNumeroHuespedes());
+        reserva.setPrecioTotal(nuevaReserva.getPrecioTotal());
+        return daoReservas.save(reserva);
     }
 
     public Reserva modificarReserva(Reserva reserva) {
