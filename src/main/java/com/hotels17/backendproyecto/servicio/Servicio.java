@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.servicio;
 
+import com.hotels17.backendproyecto.dto.HabitacionDTO;
 import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
 import com.hotels17.backendproyecto.dto.ValoracionDTO;
@@ -83,6 +84,17 @@ public class Servicio {
 
     public Habitacion getHabitacion(Integer idHabitacion) {
         return daoHabitaciones.findById(idHabitacion).orElse(null);
+    }
+
+    private HabitacionDTO getHabitacionDto(Habitacion habitacion) {
+        HabitacionDTO habitacionDto = new HabitacionDTO();
+        habitacionDto.setCapacidad(habitacion.getCapacidad());
+        habitacionDto.setId(habitacion.getId());
+        habitacionDto.setIdHotel(habitacion.getHotel().getId());
+        habitacionDto.setNombre(habitacion.getNombre());
+        habitacionDto.setPrecioDesayuno(habitacion.getPrecioDesayuno());
+        habitacionDto.setPrecioNoche(habitacion.getPrecioNoche());
+        return habitacionDto;
     }
 
     public Valoracion getValoracion(Integer idValoracion) {
