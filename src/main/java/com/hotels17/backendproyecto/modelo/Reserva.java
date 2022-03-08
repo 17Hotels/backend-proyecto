@@ -41,6 +41,14 @@ public class Reserva {
         this.desayuno = desayuno;
     }
 
+    public Double calcularPrecioTotal() {
+        double total = habitacion.getPrecioNoche();
+        if (desayuno) {
+            total += habitacion.getPrecioDesayuno();
+        }
+        return total;
+    }
+
     public Integer getId() {
         return id;
     }
