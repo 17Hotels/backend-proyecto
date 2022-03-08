@@ -22,7 +22,7 @@ public class HotelesControlador {
         return servicio.getHoteles();
     }
 
-    @GetMapping("//pais/{pais}")
+    @GetMapping("/pais/{pais}")
     public List<Hotel> getHotelesPorPais(@PathVariable String pais) {
         return servicio.getHotelesPorPais(pais);
     }

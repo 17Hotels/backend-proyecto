@@ -1,5 +1,7 @@
 package com.hotels17.backendproyecto.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -16,6 +18,7 @@ public class Reserva {
     private Habitacion habitacion;
     @ManyToOne
     @JoinColumn(name = "id_usuario")
+    @JsonIgnore
     private Usuario usuario;
     @Column(name = "numero_huespedes")
     private Integer numeroHuespedes;
