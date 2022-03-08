@@ -23,6 +23,7 @@ public class Habitacion {
     private Double precioDesayuno;
     private Integer capacidad;
     @OneToMany(mappedBy = "habitacion")
+    @JsonIgnore
     private List<Reserva> reservas;
 
     public Habitacion() {

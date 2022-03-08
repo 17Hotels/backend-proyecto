@@ -91,6 +91,7 @@ public class Servicio {
     }
 
     public Reserva nuevaReserva(Reserva nuevaReserva) {
+        nuevaReserva.setPrecioTotal(nuevaReserva.getPrecioTotal());
         return daoReservas.save(nuevaReserva);
     }
 

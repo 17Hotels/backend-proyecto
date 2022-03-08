@@ -4,11 +4,10 @@ import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -18,22 +17,22 @@ public class HotelesControlador {
     @Autowired
     private Servicio servicio;
 
-    @GetMapping("/hoteles")
+    @GetMapping()
     public List<Hotel> getHoteles() {
         return servicio.getHoteles();
     }
 
-    @GetMapping("/hoteles/pais/{pais}")
+    @GetMapping("//pais/{pais}")
     public List<Hotel> getHotelesPorPais(@PathVariable String pais) {
         return servicio.getHotelesPorPais(pais);
     }
 
-    @GetMapping("/hoteles/ciudad/{ciudad}")
+    @GetMapping("/ciudad/{ciudad}")
     public List<Hotel> getHotelesPorCiudad(@PathVariable String ciudad) {
         return servicio.getHotelesPorCiudad(ciudad);
     }
 
-    @GetMapping("/hoteles/{idHotel}")
+    @GetMapping("/{idHotel}")
     public ResponseEntity<Hotel> getHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
 
@@ -43,7 +42,7 @@ public class HotelesControlador {
         return ResponseEntity.ok(hotel);
     }
 
-    @GetMapping("/hoteles/{idHotel}/fotos")
+    @GetMapping("/{idHotel}/fotos")
     public ResponseEntity<List<Foto>> getFotosHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
         if (hotel == null) {
@@ -52,7 +51,7 @@ public class HotelesControlador {
         return ResponseEntity.ok(hotel.getFotos());
     }
 
-    @GetMapping("/hoteles/{idHotel}/habitaciones")
+    @GetMapping("/{idHotel}/habitaciones")
     public ResponseEntity<List<Habitacion>> getHabitacionesHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
         if (hotel == null) {
@@ -61,7 +60,7 @@ public class HotelesControlador {
         return ResponseEntity.ok(hotel.getHabitaciones());
     }
 
-    @GetMapping("/hoteles/{idHotel}/valoraciones")
+    @GetMapping("/{idHotel}/valoraciones")
     public ResponseEntity<List<Valoracion>> getValoracionesHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
         if (hotel == null) {
