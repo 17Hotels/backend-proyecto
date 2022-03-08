@@ -2,6 +2,7 @@ package com.hotels17.backendproyecto.controlador;
 
 import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
+import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.Usuario;
 import com.hotels17.backendproyecto.modelo.Valoracion;
 import com.hotels17.backendproyecto.servicio.Servicio;
@@ -70,11 +71,11 @@ public class UsuariosControlador {
     }
 
     @GetMapping("/usuarios/{idUsuario}/valoraciones")
-    public ResponseEntity<List<Valoracion>> getValoracionesUsuario(@PathVariable Integer idUsuario) {
+    public ResponseEntity<List<ValoracionDTO>> getValoracionesUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicio.getUsuario(idUsuario);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuario.getValoraciones());
+        return ResponseEntity.ok(servicio.getValoracionesUsuario(usuario));
     }
 }

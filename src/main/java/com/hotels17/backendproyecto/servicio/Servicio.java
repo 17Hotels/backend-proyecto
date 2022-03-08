@@ -153,4 +153,12 @@ public class Servicio {
         }
         return valoracionesDto;
     }
+
+    public List<ValoracionDTO> getValoracionesUsuario(Usuario usuario) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : usuario.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
+    }
 }
