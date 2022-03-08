@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.servicio;
 
+import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.repositorio.*;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,7 +51,7 @@ public class Servicio {
         }
     }
 
-    public UsuarioDTO getDetallesUsuario(Usuario usuario) {
+    public UsuarioDTO getUsuarioDto(Usuario usuario) {
         UsuarioDTO usuarioDetalles = new UsuarioDTO();
         usuarioDetalles.setId(usuario.getId());
         usuarioDetalles.setNombre(usuario.getNombre());
@@ -88,6 +90,26 @@ public class Servicio {
 
     public Reserva getReserva(Integer idReserva) {
         return daoReservas.findById(idReserva).orElse(null);
+    }
+
+    public ReservaDTO getReservaDto(Reserva reserva) {
+        ReservaDTO reservaDetalles = new ReservaDTO();
+        reservaDetalles.setDesayuno(reserva.getDesayuno());
+        reservaDetalles.setFechaEntrada(reserva.getFechaEntrada());
+        reservaDetalles.setFechaSalida(reserva.getFechaSalida());
+        reservaDetalles.setId(reserva.getId());
+        reservaDetalles.setIdHabitacion(reserva.getHabitacion().getId());
+        reservaDetalles.setNumeroHuespedes(reserva.getNumeroHuespedes());
+        reservaDetalles.setUsuario(getUsuarioDto(reserva.getUsuario()));
+        return reservaDetalles;
+    }
+
+    public List<ReservaDTO> getReservasDtoUsuario(Usuario usuario) {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Reserva r : usuario.getReservas()) {
+            reservasDto.add(getReservaDto(r));
+        }
+        return reservasDto;
     }
 
     public Reserva nuevaReserva(Reserva nuevaReserva) {
