@@ -1,13 +1,12 @@
 package com.hotels17.backendproyecto.controlador;
 
+import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -61,11 +60,11 @@ public class HotelesControlador {
     }
 
     @GetMapping("/{idHotel}/valoraciones")
-    public ResponseEntity<List<Valoracion>> getValoracionesHotel(@PathVariable Integer idHotel) {
+    public ResponseEntity<List<ValoracionDTO>> getValoracionesHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
         if (hotel == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(hotel.getValoraciones());
+        return ResponseEntity.ok(servicio.getValoracionesHotel(hotel));
     }
 }

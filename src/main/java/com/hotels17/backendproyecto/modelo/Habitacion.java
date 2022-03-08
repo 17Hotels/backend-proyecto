@@ -1,7 +1,5 @@
 package com.hotels17.backendproyecto.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +13,6 @@ public class Habitacion {
     private String nombre;
     @ManyToOne
     @JoinColumn(name = "id_hotel")
-    @JsonIgnore
     private Hotel hotel;
     @Column(name = "precio_noche")
     private Double precioNoche;
@@ -23,7 +20,6 @@ public class Habitacion {
     private Double precioDesayuno;
     private Integer capacidad;
     @OneToMany(mappedBy = "habitacion")
-    @JsonIgnore
     private List<Reserva> reservas;
 
     public Habitacion() {

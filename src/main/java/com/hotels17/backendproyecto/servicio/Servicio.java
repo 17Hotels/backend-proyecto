@@ -2,6 +2,7 @@ package com.hotels17.backendproyecto.servicio;
 
 import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
+import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.repositorio.*;
 import com.hotels17.backendproyecto.util.Encriptacion;
@@ -92,7 +93,7 @@ public class Servicio {
         return daoReservas.findById(idReserva).orElse(null);
     }
 
-    public ReservaDTO getReservaDto(Reserva reserva) {
+    private ReservaDTO getReservaDto(Reserva reserva) {
         ReservaDTO reservaDetalles = new ReservaDTO();
         reservaDetalles.setDesayuno(reserva.getDesayuno());
         reservaDetalles.setFechaEntrada(reserva.getFechaEntrada());
@@ -105,7 +106,7 @@ public class Servicio {
         return reservaDetalles;
     }
 
-    public List<ReservaDTO> getReservasDtoUsuario(Usuario usuario) {
+    public List<ReservaDTO> getReservasUsuario(Usuario usuario) {
         List<ReservaDTO> reservasDto = new ArrayList<>();
         for (Reserva r : usuario.getReservas()) {
             reservasDto.add(getReservaDto(r));
@@ -132,5 +133,24 @@ public class Servicio {
 
     public void eliminarReserva(Integer idReserva) {
         daoReservas.deleteById(idReserva);
+    }
+
+    private ValoracionDTO getValoracionDto(Valoracion valoracion) {
+        ValoracionDTO valoracionDto = new ValoracionDTO();
+        valoracionDto.setComentario(valoracion.getComentario());
+        valoracionDto.setFecha(valoracion.getFecha());
+        valoracionDto.setId(valoracion.getId());
+        valoracionDto.setIdHotel(valoracion.getHotel().getId());
+        valoracionDto.setIdUsuario(valoracion.getUsuario().getId());
+        valoracionDto.setNota(valoracion.getNota());
+        return valoracionDto;
+    }
+
+    public List<ValoracionDTO> getValoracionesHotel(Hotel hotel) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : hotel.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
     }
 }
