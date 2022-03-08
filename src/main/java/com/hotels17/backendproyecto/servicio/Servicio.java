@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.servicio;
 
+import com.hotels17.backendproyecto.dto.UsuarioDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.repositorio.*;
 import com.hotels17.backendproyecto.util.Encriptacion;
@@ -46,6 +47,15 @@ public class Servicio {
         } else {
             return null;
         }
+    }
+
+    public UsuarioDTO getDetallesUsuario(Usuario usuario) {
+        UsuarioDTO usuarioDetalles = new UsuarioDTO();
+        usuarioDetalles.setId(usuario.getId());
+        usuarioDetalles.setNombre(usuario.getNombre());
+        usuarioDetalles.setApellidos(usuario.getApellidos());
+        usuarioDetalles.setEmail(usuario.getEmail());
+        return usuarioDetalles;
     }
 
     public Hotel getHotel(Integer id) {
