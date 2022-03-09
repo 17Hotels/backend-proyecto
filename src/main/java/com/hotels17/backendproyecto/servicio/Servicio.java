@@ -1,9 +1,6 @@
 package com.hotels17.backendproyecto.servicio;
 
-import com.hotels17.backendproyecto.dto.HabitacionDTO;
-import com.hotels17.backendproyecto.dto.ReservaDTO;
-import com.hotels17.backendproyecto.dto.UsuarioDTO;
-import com.hotels17.backendproyecto.dto.ValoracionDTO;
+import com.hotels17.backendproyecto.dto.*;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.repositorio.*;
 import com.hotels17.backendproyecto.util.Encriptacion;
@@ -134,7 +131,17 @@ public class Servicio {
         return reservasDto;
     }
 
-    public Reserva nuevaReserva(ReservaDTO nuevaReserva) {
+    public List<ReservaDTO> getReservasHotel(Hotel hotel) {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Habitacion h : hotel.getHabitaciones()) {
+            for (Reserva r : h.getReservas()) {
+                reservasDto.add(getReservaDto(r));
+            }
+        }
+        return reservasDto;
+    }
+
+    public Reserva nuevaReserva(NuevaReservaDTO nuevaReserva) {
         Reserva reserva = new Reserva();
         reserva.setDesayuno(nuevaReserva.getDesayuno());
         reserva.setFechaEntrada(nuevaReserva.getFechaEntrada());
@@ -143,7 +150,7 @@ public class Servicio {
         reserva.setHabitacion(getHabitacion(nuevaReserva.getIdHabitacion()));
         reserva.setUsuario(getUsuario(nuevaReserva.getIdUsuario()));
         reserva.setNumeroHuespedes(nuevaReserva.getNumeroHuespedes());
-        reserva.setPrecioTotal(nuevaReserva.getPrecioTotal());
+        reserva.setPrecioTotal(reserva.calcularPrecioTotal());
         return daoReservas.save(reserva);
     }
 

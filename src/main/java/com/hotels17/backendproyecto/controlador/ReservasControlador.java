@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.controlador;
 
+import com.hotels17.backendproyecto.dto.NuevaReservaDTO;
 import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.modelo.Reserva;
 import com.hotels17.backendproyecto.servicio.Servicio;
@@ -21,7 +22,7 @@ public class ReservasControlador {
     private Servicio servicio;
 
     @PostMapping()
-    public ResponseEntity<ReservaDTO> nuevaReserva(@RequestBody ReservaDTO nuevaReserva) {
+    public ResponseEntity<NuevaReservaDTO> nuevaReserva(@RequestBody NuevaReservaDTO nuevaReserva) {
         Reserva reserva = servicio.nuevaReserva(nuevaReserva);
         try {
             return ResponseEntity.created(new URI("/" + reserva.getId())).build();

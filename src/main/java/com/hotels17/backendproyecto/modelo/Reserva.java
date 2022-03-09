@@ -1,6 +1,9 @@
 package com.hotels17.backendproyecto.modelo;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
 
@@ -42,11 +45,15 @@ public class Reserva {
     }
 
     public Double calcularPrecioTotal() {
+        LocalDate entrada = fechaEntrada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate salida = fechaSalida.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        long diasEstancia = ChronoUnit.DAYS.between(entrada, salida);
+
         double total = habitacion.getPrecioNoche();
         if (desayuno) {
             total += habitacion.getPrecioDesayuno();
         }
-        return total;
+        return total * diasEstancia;
     }
 
     public Integer getId() {
