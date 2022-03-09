@@ -1,7 +1,8 @@
 package com.hotels17.backendproyecto.controlador;
 
+import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
-import com.hotels17.backendproyecto.modelo.Reserva;
+import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.Usuario;
 import com.hotels17.backendproyecto.modelo.Valoracion;
 import com.hotels17.backendproyecto.servicio.Servicio;
@@ -29,7 +30,7 @@ public class UsuariosControlador {
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        UsuarioDTO usuarioDetalles = servicio.getDetallesUsuario(usuario);
+        UsuarioDTO usuarioDetalles = servicio.getUsuarioDto(usuario);
         return ResponseEntity.ok(usuarioDetalles);
     }
 
@@ -56,25 +57,25 @@ public class UsuariosControlador {
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        UsuarioDTO usuarioDetalles = servicio.getDetallesUsuario(usuario);
+        UsuarioDTO usuarioDetalles = servicio.getUsuarioDto(usuario);
         return ResponseEntity.ok(usuarioDetalles);
     }
 
     @GetMapping("/{idUsuario}/reservas")
-    public ResponseEntity<List<Reserva>> getReservasUsuario(@PathVariable Integer idUsuario) {
+    public ResponseEntity<List<ReservaDTO>> getReservasUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicio.getUsuario(idUsuario);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuario.getReservas());
+        return ResponseEntity.ok(servicio.getReservasUsuario(usuario));
     }
 
     @GetMapping("/usuarios/{idUsuario}/valoraciones")
-    public ResponseEntity<List<Valoracion>> getValoracionesUsuario(@PathVariable Integer idUsuario) {
+    public ResponseEntity<List<ValoracionDTO>> getValoracionesUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicio.getUsuario(idUsuario);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuario.getValoraciones());
+        return ResponseEntity.ok(servicio.getValoracionesUsuario(usuario));
     }
 }

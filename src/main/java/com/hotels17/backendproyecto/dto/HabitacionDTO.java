@@ -1,33 +1,23 @@
-package com.hotels17.backendproyecto.modelo;
+package com.hotels17.backendproyecto.dto;
 
-import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "Habitaciones")
-public class Habitacion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class HabitacionDTO {
+
     private Integer id;
     private String nombre;
-    @ManyToOne
-    @JoinColumn(name = "id_hotel")
-    private Hotel hotel;
-    @Column(name = "precio_noche")
+    private Integer idHotel;
     private Double precioNoche;
-    @Column(name = "precio_desayuno")
     private Double precioDesayuno;
     private Integer capacidad;
-    @OneToMany(mappedBy = "habitacion")
-    private List<Reserva> reservas;
 
-    public Habitacion() {
+    public HabitacionDTO() {
     }
 
-    public Habitacion(String nombre, Hotel hotel, Double precioNoche, Double precioDesayuno, Integer capacidad) {
+    public HabitacionDTO(String nombre, Integer idHotel, Double precioNoche, Double precioDesayuno,
+                         Integer capacidad) {
         this.nombre = nombre;
-        this.hotel = hotel;
+        this.idHotel = idHotel;
         this.precioNoche = precioNoche;
         this.precioDesayuno = precioDesayuno;
         this.capacidad = capacidad;
@@ -49,12 +39,12 @@ public class Habitacion {
         this.nombre = nombre;
     }
 
-    public Hotel getHotel() {
-        return hotel;
+    public Integer getIdHotel() {
+        return idHotel;
     }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+    public void setIdHotel(Integer idHotel) {
+        this.idHotel = idHotel;
     }
 
     public Double getPrecioNoche() {
@@ -81,19 +71,11 @@ public class Habitacion {
         this.capacidad = capacidad;
     }
 
-    public List<Reserva> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(List<Reserva> reservas) {
-        this.reservas = reservas;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Habitacion)) return false;
-        Habitacion that = (Habitacion) o;
+        if (!(o instanceof HabitacionDTO)) return false;
+        HabitacionDTO that = (HabitacionDTO) o;
         return id.equals(that.id);
     }
 
@@ -104,10 +86,10 @@ public class Habitacion {
 
     @Override
     public String toString() {
-        return "Habitacion{" +
+        return "HabitacionDTO{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", hotel=" + hotel +
+                ", idHotel=" + idHotel +
                 ", precioNoche=" + precioNoche +
                 ", precioDesayuno=" + precioDesayuno +
                 ", capacidad=" + capacidad +

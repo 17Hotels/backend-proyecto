@@ -1,6 +1,9 @@
 package com.hotels17.backendproyecto.servicio;
 
+import com.hotels17.backendproyecto.dto.HabitacionDTO;
+import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
+import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.repositorio.*;
 import com.hotels17.backendproyecto.util.Encriptacion;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,7 +53,7 @@ public class Servicio {
         }
     }
 
-    public UsuarioDTO getDetallesUsuario(Usuario usuario) {
+    public UsuarioDTO getUsuarioDto(Usuario usuario) {
         UsuarioDTO usuarioDetalles = new UsuarioDTO();
         usuarioDetalles.setId(usuario.getId());
         usuarioDetalles.setNombre(usuario.getNombre());
@@ -82,6 +86,17 @@ public class Servicio {
         return daoHabitaciones.findById(idHabitacion).orElse(null);
     }
 
+    private HabitacionDTO getHabitacionDto(Habitacion habitacion) {
+        HabitacionDTO habitacionDto = new HabitacionDTO();
+        habitacionDto.setCapacidad(habitacion.getCapacidad());
+        habitacionDto.setId(habitacion.getId());
+        habitacionDto.setIdHotel(habitacion.getHotel().getId());
+        habitacionDto.setNombre(habitacion.getNombre());
+        habitacionDto.setPrecioDesayuno(habitacion.getPrecioDesayuno());
+        habitacionDto.setPrecioNoche(habitacion.getPrecioNoche());
+        return habitacionDto;
+    }
+
     public Valoracion getValoracion(Integer idValoracion) {
         return daoValoraciones.findById(idValoracion).orElse(null);
     }
@@ -90,8 +105,38 @@ public class Servicio {
         return daoReservas.findById(idReserva).orElse(null);
     }
 
-    public Reserva nuevaReserva(Reserva nuevaReserva) {
-        return daoReservas.save(nuevaReserva);
+    private ReservaDTO getReservaDto(Reserva reserva) {
+        ReservaDTO reservaDetalles = new ReservaDTO();
+        reservaDetalles.setDesayuno(reserva.getDesayuno());
+        reservaDetalles.setFechaEntrada(reserva.getFechaEntrada());
+        reservaDetalles.setFechaSalida(reserva.getFechaSalida());
+        reservaDetalles.setId(reserva.getId());
+        reservaDetalles.setIdHabitacion(reserva.getHabitacion().getId());
+        reservaDetalles.setIdUsuario(reserva.getUsuario().getId());
+        reservaDetalles.setNumeroHuespedes(reserva.getNumeroHuespedes());
+        reservaDetalles.setPrecioTotal(reserva.getPrecioTotal());
+        return reservaDetalles;
+    }
+
+    public List<ReservaDTO> getReservasUsuario(Usuario usuario) {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Reserva r : usuario.getReservas()) {
+            reservasDto.add(getReservaDto(r));
+        }
+        return reservasDto;
+    }
+
+    public Reserva nuevaReserva(ReservaDTO nuevaReserva) {
+        Reserva reserva = new Reserva();
+        reserva.setDesayuno(nuevaReserva.getDesayuno());
+        reserva.setFechaEntrada(nuevaReserva.getFechaEntrada());
+        reserva.setFechaSalida(nuevaReserva.getFechaSalida());
+        reserva.setId(nuevaReserva.getId());
+        reserva.setHabitacion(getHabitacion(nuevaReserva.getIdHabitacion()));
+        reserva.setUsuario(getUsuario(nuevaReserva.getIdUsuario()));
+        reserva.setNumeroHuespedes(nuevaReserva.getNumeroHuespedes());
+        reserva.setPrecioTotal(nuevaReserva.getPrecioTotal());
+        return daoReservas.save(reserva);
     }
 
     public Reserva modificarReserva(Reserva reserva) {
@@ -100,5 +145,32 @@ public class Servicio {
 
     public void eliminarReserva(Integer idReserva) {
         daoReservas.deleteById(idReserva);
+    }
+
+    private ValoracionDTO getValoracionDto(Valoracion valoracion) {
+        ValoracionDTO valoracionDto = new ValoracionDTO();
+        valoracionDto.setComentario(valoracion.getComentario());
+        valoracionDto.setFecha(valoracion.getFecha());
+        valoracionDto.setId(valoracion.getId());
+        valoracionDto.setIdHotel(valoracion.getHotel().getId());
+        valoracionDto.setIdUsuario(valoracion.getUsuario().getId());
+        valoracionDto.setNota(valoracion.getNota());
+        return valoracionDto;
+    }
+
+    public List<ValoracionDTO> getValoracionesHotel(Hotel hotel) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : hotel.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
+    }
+
+    public List<ValoracionDTO> getValoracionesUsuario(Usuario usuario) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : usuario.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
     }
 }

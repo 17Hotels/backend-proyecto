@@ -1,5 +1,7 @@
 package com.hotels17.backendproyecto.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -37,10 +39,13 @@ public class Hotel {
     @Column(name = "precio_parking")
     private Double precioParking;
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private List<Foto> fotos;
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private List<Habitacion> habitaciones;
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private List<Valoracion> valoraciones;
 
     public Hotel() {

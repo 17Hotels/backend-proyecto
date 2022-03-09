@@ -1,52 +1,31 @@
-package com.hotels17.backendproyecto.modelo;
+package com.hotels17.backendproyecto.dto;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "Reservas")
-public class Reserva {
+public class ReservaDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name = "id_habitacion")
-    private Habitacion habitacion;
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-    @Column(name = "numero_huespedes")
+    private Integer idHabitacion;
+    private Integer idUsuario;
     private Integer numeroHuespedes;
-    @Column(name = "fecha_entrada")
     private Date fechaEntrada;
-    @Column(name = "fecha_salida")
     private Date fechaSalida;
-    @Column(name = "precio_total")
     private Double precioTotal;
     private Boolean desayuno;
 
-    public Reserva() {
+    public ReservaDTO() {
     }
 
-    public Reserva(Habitacion habitacion, Usuario usuario, Integer numeroHuespedes, Date fechaEntrada,
-                   Date fechaSalida, Double precioTotal, Boolean desayuno) {
-        this.habitacion = habitacion;
-        this.usuario = usuario;
+    public ReservaDTO(Integer idHabitacion, Integer idUsuario, Integer numeroHuespedes, Date fechaEntrada,
+                      Date fechaSalida, Double precioTotal, Boolean desayuno) {
+        this.idHabitacion = idHabitacion;
+        this.idUsuario = idUsuario;
         this.numeroHuespedes = numeroHuespedes;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
         this.precioTotal = precioTotal;
         this.desayuno = desayuno;
-    }
-
-    public Double calcularPrecioTotal() {
-        double total = habitacion.getPrecioNoche();
-        if (desayuno) {
-            total += habitacion.getPrecioDesayuno();
-        }
-        return total;
     }
 
     public Integer getId() {
@@ -57,20 +36,20 @@ public class Reserva {
         this.id = id;
     }
 
-    public Habitacion getHabitacion() {
-        return habitacion;
+    public Integer getIdHabitacion() {
+        return idHabitacion;
     }
 
-    public void setHabitacion(Habitacion habitacion) {
-        this.habitacion = habitacion;
+    public void setIdHabitacion(Integer idHabitacion) {
+        this.idHabitacion = idHabitacion;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Integer getNumeroHuespedes() {
@@ -116,9 +95,9 @@ public class Reserva {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reserva reserva = (Reserva) o;
-        return id.equals(reserva.id);
+        if (!(o instanceof ReservaDTO)) return false;
+        ReservaDTO that = (ReservaDTO) o;
+        return id.equals(that.id);
     }
 
     @Override
@@ -128,10 +107,10 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva{" +
+        return "ReservaDTO{" +
                 "id=" + id +
-                ", habitacion=" + habitacion +
-                ", usuario=" + usuario +
+                ", idHabitacion=" + idHabitacion +
+                ", idUsuario=" + idUsuario +
                 ", numeroHuespedes=" + numeroHuespedes +
                 ", fechaEntrada=" + fechaEntrada +
                 ", fechaSalida=" + fechaSalida +
