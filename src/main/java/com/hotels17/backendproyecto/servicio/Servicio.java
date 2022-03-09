@@ -97,6 +97,14 @@ public class Servicio {
         return habitacionDto;
     }
 
+    public List<HabitacionDTO> getHabitacionesHotel(Hotel hotel) {
+        List<HabitacionDTO> habitacionesDto = new ArrayList<>();
+        for (Habitacion h : hotel.getHabitaciones()) {
+            habitacionesDto.add(getHabitacionDto(h));
+        }
+        return habitacionesDto;
+    }
+
     public Valoracion getValoracion(Integer idValoracion) {
         return daoValoraciones.findById(idValoracion).orElse(null);
     }

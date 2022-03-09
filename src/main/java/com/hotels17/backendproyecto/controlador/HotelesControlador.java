@@ -1,5 +1,6 @@
 package com.hotels17.backendproyecto.controlador;
 
+import com.hotels17.backendproyecto.dto.HabitacionDTO;
 import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.*;
 import com.hotels17.backendproyecto.servicio.Servicio;
@@ -51,12 +52,12 @@ public class HotelesControlador {
     }
 
     @GetMapping("/{idHotel}/habitaciones")
-    public ResponseEntity<List<Habitacion>> getHabitacionesHotel(@PathVariable Integer idHotel) {
+    public ResponseEntity<List<HabitacionDTO>> getHabitacionesHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);
         if (hotel == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(hotel.getHabitaciones());
+        return ResponseEntity.ok(servicio.getHabitacionesHotel(hotel));
     }
 
     @GetMapping("/{idHotel}/valoraciones")
