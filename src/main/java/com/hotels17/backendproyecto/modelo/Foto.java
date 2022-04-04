@@ -1,5 +1,7 @@
 package com.hotels17.backendproyecto.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ public class Foto {
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "id_hotel")
+    @JsonIgnore
     private Hotel hotel;
     private String enlace;
 

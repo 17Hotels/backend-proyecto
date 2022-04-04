@@ -1,21 +1,18 @@
 package com.hotels17.backendproyecto.controlador;
 
 import com.hotels17.backendproyecto.dto.NuevaReservaDTO;
-import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.modelo.Reserva;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/reservas")
+@CrossOrigin("http://localhost:4200")
 public class ReservasControlador {
 
     @Autowired

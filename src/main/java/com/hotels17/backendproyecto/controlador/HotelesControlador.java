@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.Collator;
 import java.util.List;
+import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/hoteles")
+@CrossOrigin("http://localhost:4200")
 public class HotelesControlador {
 
     @Autowired
@@ -77,5 +80,14 @@ public class HotelesControlador {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(servicio.getReservasHotel(hotel));
+    }
+
+    @GetMapping("/destinos")
+    public TreeSet<String> getDestinos() {
+        TreeSet<String> destinos = new TreeSet<>(Collator.getInstance());
+        for (Hotel h : servicio.getHoteles()) {
+            destinos.add(h.getCiudad() + ", " + h.getPais());
+        }
+        return destinos;
     }
 }

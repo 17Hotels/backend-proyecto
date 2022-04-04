@@ -4,7 +4,6 @@ import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
 import com.hotels17.backendproyecto.dto.ValoracionDTO;
 import com.hotels17.backendproyecto.modelo.Usuario;
-import com.hotels17.backendproyecto.modelo.Valoracion;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import com.hotels17.backendproyecto.util.Encriptacion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin("http://localhost:4200")
 public class UsuariosControlador {
 
     @Autowired
