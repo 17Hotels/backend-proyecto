@@ -46,6 +46,12 @@ public class HotelesControlador {
         return ResponseEntity.ok(hotel);
     }
 
+    @GetMapping("/{idHotel}/precio-minimo")
+    public double getPrecioMinimoHotel(@PathVariable Integer idHotel) {
+        Hotel hotel = servicio.getHotel(idHotel);
+        return hotel.getPrecioMinimoHabitacion();
+    }
+
     @GetMapping("/{idHotel}/fotos")
     public ResponseEntity<List<Foto>> getFotosHotel(@PathVariable Integer idHotel) {
         Hotel hotel = servicio.getHotel(idHotel);

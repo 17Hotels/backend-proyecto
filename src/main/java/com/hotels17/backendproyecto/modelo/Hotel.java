@@ -39,7 +39,6 @@ public class Hotel {
     @Column(name = "precio_parking")
     private Double precioParking;
     @OneToMany(mappedBy = "hotel")
-    @JsonIgnore
     private List<Foto> fotos;
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
@@ -76,6 +75,10 @@ public class Hotel {
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
         this.precioParking = precioParking;
+    }
+
+    public Double getPrecioMinimoHabitacion(){
+        return getHabitaciones().stream().mapToDouble(Habitacion::getPrecioNoche).min().orElse(0);
     }
 
     public Integer getId() {
