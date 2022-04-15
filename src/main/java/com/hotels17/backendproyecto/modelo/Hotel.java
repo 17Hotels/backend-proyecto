@@ -77,7 +77,7 @@ public class Hotel {
         this.precioParking = precioParking;
     }
 
-    public Double getPrecioMinimoHabitacion(){
+    public Double getPrecioMinimoHabitacion() {
         return getHabitaciones().stream().mapToDouble(Habitacion::getPrecioNoche).min().orElse(0);
     }
 

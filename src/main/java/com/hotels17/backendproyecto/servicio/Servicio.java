@@ -84,6 +84,14 @@ public class Servicio {
         return daoHabitaciones.findById(idHabitacion).orElse(null);
     }
 
+    public HabitacionDTO getHabitacionDTO(Integer idHabitacion) {
+        Habitacion habitacion = daoHabitaciones.findById(idHabitacion).orElse(null);
+        if (habitacion == null) {
+            return null;
+        }
+        return getHabitacionDto(habitacion);
+    }
+
     private HabitacionDTO getHabitacionDto(Habitacion habitacion) {
         HabitacionDTO habitacionDto = new HabitacionDTO();
         habitacionDto.setCapacidad(habitacion.getCapacidad());
