@@ -50,7 +50,7 @@ public class Reserva {
         long diasEstancia = ChronoUnit.DAYS.between(entrada, salida);
 
         double total = habitacion.getPrecioNoche();
-        if (desayuno) {
+        if (desayuno && habitacion.getPrecioDesayuno() != null) {
             total += habitacion.getPrecioDesayuno();
         }
         return total * diasEstancia;

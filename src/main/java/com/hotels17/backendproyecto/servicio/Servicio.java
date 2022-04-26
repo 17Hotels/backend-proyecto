@@ -115,8 +115,12 @@ public class Servicio {
         return daoValoraciones.findById(idValoracion).orElse(null);
     }
 
-    public Reserva getReserva(Integer idReserva) {
-        return daoReservas.findById(idReserva).orElse(null);
+    public ReservaDTO getReserva(Integer idReserva) {
+        Reserva reserva = daoReservas.findById(idReserva).orElse(null);
+        if (reserva == null) {
+            return null;
+        }
+        return getReservaDto(reserva);
     }
 
     private ReservaDTO getReservaDto(Reserva reserva) {
@@ -130,6 +134,14 @@ public class Servicio {
         reservaDetalles.setNumeroHuespedes(reserva.getNumeroHuespedes());
         reservaDetalles.setPrecioTotal(reserva.getPrecioTotal());
         return reservaDetalles;
+    }
+
+    public List<ReservaDTO> getReservas() {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Reserva r : daoReservas.findAll()) {
+            reservasDto.add(getReservaDto(r));
+        }
+        return reservasDto;
     }
 
     public List<ReservaDTO> getReservasUsuario(Usuario usuario) {
