@@ -51,9 +51,9 @@ public class UsuariosControlador {
         }
     }
 
-    @PostMapping(path = "/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<UsuarioDTO> login(@RequestParam String email, @RequestParam String password) {
-        Usuario usuario = servicio.login(email, password);
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDTO> login(@RequestBody Usuario credencialesUsuario) {
+        Usuario usuario = servicio.login(credencialesUsuario.getEmail(), credencialesUsuario.getPassword());
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
