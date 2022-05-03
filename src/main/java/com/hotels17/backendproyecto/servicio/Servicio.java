@@ -33,6 +33,10 @@ public class Servicio {
     }
 
     public Usuario registrarUsuario(Usuario usuario) {
+        Usuario buscarUsuario = daoUsuarios.findUsuarioByEmail(usuario.getEmail()).orElse(null);
+        if (buscarUsuario != null) {
+            return null;
+        }
         return daoUsuarios.save(usuario);
     }
 

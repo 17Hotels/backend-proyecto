@@ -7,6 +7,7 @@ import com.hotels17.backendproyecto.modelo.Usuario;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import com.hotels17.backendproyecto.util.Encriptacion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UsuariosControlador {
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody Usuario usuario) {
         String salt = Encriptacion.generarSalt();
         String password = usuario.getPassword();
         String passwordEncriptada = Encriptacion.hashPassword(password, salt);
@@ -44,8 +45,13 @@ public class UsuariosControlador {
         usuario.setPassword(passwordEncriptada);
         usuario = servicio.registrarUsuario(usuario);
 
+        if (usuario == null) { // Ya existe un usuario con ese email
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        UsuarioDTO usuarioDTO = servicio.getUsuarioDto(usuario);
+
         try {
-            return ResponseEntity.created(new URI("/" + usuario.getId())).build();
+            return ResponseEntity.created(new URI("/" + usuario.getId())).body(usuarioDTO);
         } catch (URISyntaxException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
