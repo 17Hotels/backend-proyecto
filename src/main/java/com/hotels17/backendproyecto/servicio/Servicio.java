@@ -25,8 +25,6 @@ public class Servicio {
     private ValoracionesRepositorio daoValoraciones;
     @Autowired
     private ReservasRepositorio daoReservas;
-    @Autowired
-    private FotosRepositorio daoFotos;
 
     public Usuario getUsuario(Integer id) {
         return daoUsuarios.findById(id).orElse(null);
@@ -196,6 +194,18 @@ public class Servicio {
         valoracionDto.setIdUsuario(valoracion.getUsuario().getId());
         valoracionDto.setNota(valoracion.getNota());
         return valoracionDto;
+    }
+
+    public ValoracionDTO valorarHotel(ValoracionDTO valoracionDTO) {
+        Valoracion valoracion = new Valoracion(
+                getUsuario(valoracionDTO.getIdUsuario()),
+                getHotel(valoracionDTO.getIdHotel()),
+                valoracionDTO.getComentario(),
+                valoracionDTO.getFecha(),
+                valoracionDTO.getNota()
+        );
+        valoracion = daoValoraciones.save(valoracion);
+        return getValoracionDto(valoracion);
     }
 
     public List<ValoracionDTO> getValoracionesHotel(Hotel hotel) {

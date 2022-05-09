@@ -76,7 +76,7 @@ public class UsuariosControlador {
         return ResponseEntity.ok(servicio.getReservasUsuario(usuario));
     }
 
-    @GetMapping("/usuarios/{idUsuario}/valoraciones")
+    @GetMapping("/{idUsuario}/valoraciones")
     public ResponseEntity<List<ValoracionDTO>> getValoracionesUsuario(@PathVariable Integer idUsuario) {
         Usuario usuario = servicio.getUsuario(idUsuario);
         if (usuario == null) {

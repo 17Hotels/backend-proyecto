@@ -88,6 +88,18 @@ public class HotelesControlador {
         return ResponseEntity.ok(servicio.getReservasHotel(hotel));
     }
 
+    @PostMapping("/{idHotel}/valorar")
+    public ResponseEntity<ValoracionDTO> valorarHotel(@RequestBody ValoracionDTO valoracionDTO) {
+        valoracionDTO = servicio.valorarHotel(valoracionDTO);
+        return ResponseEntity.ok(valoracionDTO);
+
+        /*Hotel hotel = servicio.getHotel(idHotel);
+        if (hotel == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(servicio.getReservasHotel(hotel));*/
+    }
+
     @GetMapping("/destinos")
     public TreeSet<String> getDestinos() {
         TreeSet<String> destinos = new TreeSet<>(Collator.getInstance());
