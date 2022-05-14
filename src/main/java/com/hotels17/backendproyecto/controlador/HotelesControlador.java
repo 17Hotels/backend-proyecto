@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -24,16 +26,6 @@ public class HotelesControlador {
     @GetMapping()
     public List<Hotel> getHoteles() {
         return servicio.getHoteles();
-    }
-
-    @GetMapping("/pais/{pais}")
-    public List<Hotel> getHotelesPorPais(@PathVariable String pais) {
-        return servicio.getHotelesPorPais(pais);
-    }
-
-    @GetMapping("/ciudad/{ciudad}")
-    public List<Hotel> getHotelesPorCiudad(@PathVariable String ciudad) {
-        return servicio.getHotelesPorCiudad(ciudad);
     }
 
     @GetMapping("/{idHotel}")
@@ -76,7 +68,9 @@ public class HotelesControlador {
         if (hotel == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(servicio.getValoracionesHotel(hotel));
+        List<ValoracionDTO> valoraciones = servicio.getValoracionesHotel(hotel);
+        valoraciones.sort(Comparator.comparingInt(ValoracionDTO::getId).reversed()); //De mayor a menor
+        return ResponseEntity.ok(valoraciones);
     }
 
     @GetMapping("/{idHotel}/reservas")
@@ -92,12 +86,6 @@ public class HotelesControlador {
     public ResponseEntity<ValoracionDTO> valorarHotel(@RequestBody ValoracionDTO valoracionDTO) {
         valoracionDTO = servicio.valorarHotel(valoracionDTO);
         return ResponseEntity.ok(valoracionDTO);
-
-        /*Hotel hotel = servicio.getHotel(idHotel);
-        if (hotel == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(servicio.getReservasHotel(hotel));*/
     }
 
     @GetMapping("/destinos")
@@ -107,5 +95,15 @@ public class HotelesControlador {
             destinos.add(h.getCiudad() + ", " + h.getPais());
         }
         return destinos;
+    }
+
+    @GetMapping("/pais/{pais}")
+    public List<Hotel> getHotelesPorPais(@PathVariable String pais) {
+        return servicio.getHotelesPorPais(pais);
+    }
+
+    @GetMapping("/ciudad/{ciudad}")
+    public List<Hotel> getHotelesPorCiudad(@PathVariable String ciudad) {
+        return servicio.getHotelesPorCiudad(ciudad);
     }
 }

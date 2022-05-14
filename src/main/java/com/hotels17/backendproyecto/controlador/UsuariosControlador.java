@@ -3,6 +3,7 @@ package com.hotels17.backendproyecto.controlador;
 import com.hotels17.backendproyecto.dto.ReservaDTO;
 import com.hotels17.backendproyecto.dto.UsuarioDTO;
 import com.hotels17.backendproyecto.dto.ValoracionDTO;
+import com.hotels17.backendproyecto.modelo.Reserva;
 import com.hotels17.backendproyecto.modelo.Usuario;
 import com.hotels17.backendproyecto.servicio.Servicio;
 import com.hotels17.backendproyecto.util.Encriptacion;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -73,7 +75,10 @@ public class UsuariosControlador {
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(servicio.getReservasUsuario(usuario));
+
+        List<ReservaDTO> reservas = servicio.getReservasUsuario(usuario);
+        reservas.sort(Comparator.comparing(ReservaDTO::getFechaSalida).reversed());
+        return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/{idUsuario}/valoraciones")

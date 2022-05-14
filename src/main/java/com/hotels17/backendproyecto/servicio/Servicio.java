@@ -26,6 +26,9 @@ public class Servicio {
     @Autowired
     private ReservasRepositorio daoReservas;
 
+    /*
+     *   Métodos del usuario
+     */
     public Usuario getUsuario(Integer id) {
         return daoUsuarios.findById(id).orElse(null);
     }
@@ -53,6 +56,14 @@ public class Servicio {
         }
     }
 
+    public List<ReservaDTO> getReservasUsuario(Usuario usuario) {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Reserva r : usuario.getReservas()) {
+            reservasDto.add(getReservaDto(r));
+        }
+        return reservasDto;
+    }
+
     public UsuarioDTO getUsuarioDto(Usuario usuario) {
         UsuarioDTO usuarioDetalles = new UsuarioDTO();
         usuarioDetalles.setId(usuario.getId());
@@ -62,12 +73,20 @@ public class Servicio {
         return usuarioDetalles;
     }
 
-    public Hotel getHotel(Integer id) {
-        return daoHoteles.findById(id).orElse(null);
+    public List<ValoracionDTO> getValoracionesUsuario(Usuario usuario) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : usuario.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
     }
 
-    public Hotel getHotel(String nombre) {
-        return daoHoteles.findByNombre(nombre).orElse(null);
+    /*
+     *   Métodos del hotel
+     */
+
+    public Hotel getHotel(Integer id) {
+        return daoHoteles.findById(id).orElse(null);
     }
 
     public List<Hotel> getHoteles() {
@@ -81,6 +100,28 @@ public class Servicio {
     public List<Hotel> getHotelesPorCiudad(String ciudad) {
         return daoHoteles.findAllByCiudad(ciudad, Sort.by(Sort.Direction.ASC, "nombre"));
     }
+
+    public List<ReservaDTO> getReservasHotel(Hotel hotel) {
+        List<ReservaDTO> reservasDto = new ArrayList<>();
+        for (Habitacion h : hotel.getHabitaciones()) {
+            for (Reserva r : h.getReservas()) {
+                reservasDto.add(getReservaDto(r));
+            }
+        }
+        return reservasDto;
+    }
+
+    public List<ValoracionDTO> getValoracionesHotel(Hotel hotel) {
+        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
+        for (Valoracion v : hotel.getValoraciones()) {
+            valoracionesDto.add(getValoracionDto(v));
+        }
+        return valoracionesDto;
+    }
+
+    /*
+     *   Métodos de la habitación
+     */
 
     public Habitacion getHabitacion(Integer idHabitacion) {
         return daoHabitaciones.findById(idHabitacion).orElse(null);
@@ -113,9 +154,9 @@ public class Servicio {
         return habitacionesDto;
     }
 
-    public Valoracion getValoracion(Integer idValoracion) {
-        return daoValoraciones.findById(idValoracion).orElse(null);
-    }
+    /*
+     *   Métodos de la reserva
+     */
 
     public ReservaDTO getReserva(Integer idReserva) {
         Reserva reserva = daoReservas.findById(idReserva).orElse(null);
@@ -146,24 +187,6 @@ public class Servicio {
         return reservasDto;
     }
 
-    public List<ReservaDTO> getReservasUsuario(Usuario usuario) {
-        List<ReservaDTO> reservasDto = new ArrayList<>();
-        for (Reserva r : usuario.getReservas()) {
-            reservasDto.add(getReservaDto(r));
-        }
-        return reservasDto;
-    }
-
-    public List<ReservaDTO> getReservasHotel(Hotel hotel) {
-        List<ReservaDTO> reservasDto = new ArrayList<>();
-        for (Habitacion h : hotel.getHabitaciones()) {
-            for (Reserva r : h.getReservas()) {
-                reservasDto.add(getReservaDto(r));
-            }
-        }
-        return reservasDto;
-    }
-
     public Reserva nuevaReserva(NuevaReservaDTO nuevaReserva) {
         Reserva reserva = new Reserva();
         reserva.setDesayuno(nuevaReserva.getDesayuno());
@@ -177,13 +200,9 @@ public class Servicio {
         return daoReservas.save(reserva);
     }
 
-    public Reserva modificarReserva(Reserva reserva) {
-        return daoReservas.save(reserva);
-    }
-
-    public void eliminarReserva(Integer idReserva) {
-        daoReservas.deleteById(idReserva);
-    }
+    /*
+     *   Métodos de la valoración
+     */
 
     private ValoracionDTO getValoracionDto(Valoracion valoracion) {
         ValoracionDTO valoracionDto = new ValoracionDTO();
@@ -206,21 +225,5 @@ public class Servicio {
         );
         valoracion = daoValoraciones.save(valoracion);
         return getValoracionDto(valoracion);
-    }
-
-    public List<ValoracionDTO> getValoracionesHotel(Hotel hotel) {
-        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
-        for (Valoracion v : hotel.getValoraciones()) {
-            valoracionesDto.add(getValoracionDto(v));
-        }
-        return valoracionesDto;
-    }
-
-    public List<ValoracionDTO> getValoracionesUsuario(Usuario usuario) {
-        List<ValoracionDTO> valoracionesDto = new ArrayList<>();
-        for (Valoracion v : usuario.getValoraciones()) {
-            valoracionesDto.add(getValoracionDto(v));
-        }
-        return valoracionesDto;
     }
 }
